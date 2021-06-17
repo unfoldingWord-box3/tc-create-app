@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -33,7 +33,7 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 
-import { Button } from '@material-ui/core';
+import { BottomNavigation, Button } from '@material-ui/core';
 import { markdownToHtml } from '../../_imports/markdown-translatable/markdown-converter';
 
 import mocks from '../../_mocks/index';
@@ -53,6 +53,14 @@ export default function Dashboard() {
   console.log("Dashboard // mocks", mocks);
   
   const releases = mocks.dcs.repos.unfoldingWord_en_tn.api;
+
+  useEffect(() => {
+    if (releases && !selectedRelease)
+    {
+      setSelectedRelease(releases[0]);
+    }
+  }, [releases])
+
   console.log("Dashboard // releases", releases);
   const releasesListItems = releases.map(release => {return (
     <ListItem button key={release.id} onClick={()=> setSelectedRelease(release)}>
@@ -70,56 +78,35 @@ export default function Dashboard() {
   const detailsPanel = useMemo(() => {
     if (selectedRelease?.body)
     {
-      return(<>
-        <Grid container spacing={3}>
-          <Grid item xs={6}>
-            <Paper className={classes.paper}>xs=6</Paper>
-          </Grid>
-          <Grid item xs={6}>
-            <Paper className={classes.paper}>xs=6</Paper>
-          </Grid>
-          <Grid item xs={3}>
-            <Paper className={classes.paper}>xs=3</Paper>
-          </Grid>
-          <Grid item xs={3}>
-            <Paper className={classes.paper}>xs=3</Paper>
-          </Grid>
-          <Grid item xs={3}>
-            <Paper className={classes.paper}>xs=3</Paper>
-          </Grid>
-          <Grid item xs={3}>
-            <Paper className={classes.paper}>xs=3</Paper>
-          </Grid>
-          <Grid item xs={12}>
-            <Paper className={classes.paper}>
-              <div dangerouslySetInnerHTML={{ __html: markdownToHtml({ markdown: selectedRelease?.body }) }} />
-            </Paper>
-          </Grid>
-        </Grid>
-    </>)
+      return (<>
+        <div className={classes.scrollablePaper} dangerouslySetInnerHTML={{ __html: markdownToHtml({ markdown: selectedRelease?.body }) }}/>
+        <Container className={classes.footer}>
+          <Button variant="contained" color="primary">Select Version 41</Button>
+        </Container>
+      </>);
     }
   }, [selectedRelease]);
 
-  // return (<div className={classes.root}>
-  //   {versionListPanel}
-  // </div>);
-
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <Paper className={classes.scrollableListPaper} style={{ float: 'left' }}>
-        {versionListPanel}
-      </Paper>
-      <Container className={classes.paper}>
-        {detailsPanel || <Typography/>}
-      </Container>
-    </div>
-  );
-};
+      <div className={classes.root}>
+        <CssBaseline />
+        <Paper className={classes.scrollableListPaper} style={{ float: 'left' }}>
+          {versionListPanel}
+        </Paper>
+        <Container className={classes.paper}>
+          {detailsPanel || <Typography/>}
+        </Container>
+      </div>
+  )};
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxHeight: 'inherit'
+    maxHeight: 'inherit',
+  },
+  footer: {
+    position: 'sticky',
+    bottom: '0px',
+    right: '0px',
   },
   container: {
     maxHeight: 'inherit',
@@ -139,6 +126,10 @@ const useStyles = makeStyles((theme) => ({
   },
   scrollableListPaper: {
     // DEBUG: TODO:
+    maxHeight: 'inherit',
+    overflow: 'auto',
+  },
+  scrollablePaper: {
     maxHeight: 'inherit',
     overflow: 'auto',
   },
