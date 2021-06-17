@@ -99,9 +99,9 @@ function AppComponent() {
   }
 
   const style = {
-    app: { fontSize: `${fontScale / 100}em` },
+    app: { fontSize: `${fontScale / 100}em`, height: '100vh' },
     headroom: { zIndex: '200' },
-    workspace: { margin: `${theme.spacing(2)}px` },
+    workspace: { margin: `${theme.spacing(2)}px`, height: '50%', minHeight: '50%'},
   };
   return (
     <div className='App' style={style.app}>
