@@ -88,16 +88,27 @@ export default function Dashboard() {
   }, [selectedRelease]);
 
   return (
-      <div className={classes.root}>
-        <CssBaseline />
+    <Grid container direction="column" alignItems="stretch" spacing={0} style={{flexGrow: 1}}>
+      <Grid item maxHeight="sm">
+        <div style={{height: '100%'}}>body</div>
+      </Grid>
+      <Grid>
+        <div style={{height: '100%'}}>body</div>
+      </Grid>
+      <Grid item height="1">
+        <div style={{height: '100%'}}>body</div>
+      </Grid>
+    </Grid>
+  )};
+
+/*
         <Paper className={classes.scrollableListPaper} style={{ float: 'left' }}>
           {versionListPanel}
         </Paper>
         <Container className={classes.paper}>
           {detailsPanel || <Typography/>}
         </Container>
-      </div>
-  )};
+*/
 
 const useStyles = makeStyles((theme) => ({
   root: {
