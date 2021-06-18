@@ -19,8 +19,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
-import Deposits from './Deposits';
-import Orders from './Orders';
 
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -32,8 +30,10 @@ import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
-
 import { BottomNavigation, Button } from '@material-ui/core';
+
+import { Layout } from 'antd';
+
 import { markdownToHtml } from '../../_imports/markdown-translatable/markdown-converter';
 
 import mocks from '../../_mocks/index';
@@ -80,26 +80,164 @@ export default function Dashboard() {
     {
       return (<>
         <div className={classes.scrollablePaper} dangerouslySetInnerHTML={{ __html: markdownToHtml({ markdown: selectedRelease?.body }) }}/>
-        <Container className={classes.footer}>
-          <Button variant="contained" color="primary">Select Version 41</Button>
-        </Container>
       </>);
     }
   }, [selectedRelease]);
+  
+  const { Header, Footer, Sider, Content } = Layout;
 
   return (
-    <Grid container direction="column" alignItems="stretch" spacing={0} style={{flexGrow: 1}}>
-      <Grid item maxHeight="sm">
-        <div style={{height: '100%'}}>body</div>
+    <div className={classes.root}>
+      <div className={classes.gridColumnsLayoutContainer}>
+        <div className={classes.gridColumnsLayoutHeader}>
+          head
+        </div>
+        <div className={classes.gridColumnsLayoutBody}>
+          <div className={classes.root}>
+            <div className={classes.gridRowsLayoutContainer}>
+              <div className={classes.gridRowsLayoutLeft}>
+                <div className={classes.scrollablePaper}>
+                  {versionListPanel}
+                </div>
+              </div>
+              <div className={classes.gridRowsLayoutBody}>
+                <div className={classes.scrollablePaper}>
+                  {detailsPanel || <Typography/>}
+                </div>
+              </div>
+              <div className={classes.gridRowsLayoutRight} style={{display: 'none'}}>
+                  &nbsp;
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className={classes.gridColumnsLayoutFooter}>
+          <div align="right">
+            <Button variant="contained" color="primary">Select Version 41</Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+
+};
+
+
+  /*
+  
+    <div className={classes.root}>
+      <div className={classes.gridRowsLayoutContainer}>
+        <div className={classes.gridRowsLayoutLeft}>
+          <div className={classes.scrollablePaper}>
+            {versionListPanel}
+          </div>
+        </div>
+        <div className={classes.gridRowsLayoutBody}>
+          <div className={classes.scrollablePaper}>
+            {detailsPanel || <Typography/>}
+          </div>
+        </div>
+      </div>
+    </div>
+  */
+
+    /*
+
+  return (
+    <div className={classes.root}>
+      <div className={classes.gridRowsLayoutContainer}>
+        <div className={classes.gridRowsLayoutHeader}>
+          <div className={classes.scrollableListPaper}>
+            {versionListPanel}
+          </div>
+        </div>
+        <div className={classes.gridRowsLayoutBody}>
+          {detailsPanel || <Typography/>}
+        </div>
+        <div className={classes.gridRowsLayoutFooter}>
+          right
+        </div>
+      </div>
+    </div>
+  )
+
+    <div className={classes.root}>
+      <div className={classes.gridRowsLayoutContainer}>
+        <div className={classes.gridRowsLayoutHeader}>
+          <div className={classes.scrollableListPaper}>
+            {versionListPanel}
+          </div>
+        </div>
+        <div className={classes.gridRowsLayoutBody}>
+          {detailsPanel || <Typography/>}
+          body
+        </div>
+        <div className={classes.gridRowsLayoutFooter}>
+          right
+        </div>
+      </div>
+    </div>
+
+    <div className={classes.root}>
+      <Grid container spacing={0} className={classes.gridRowsLayoutContainer}>
+        <Grid item className={classes.gridRowsLayoutHeader}>
+          <div className={classes.scrollableListPaper}>
+            {versionListPanel}
+          </div>
+        </Grid>
+        <Grid item className={classes.gridRowsLayoutBody}>
+          {detailsPanel || <Typography/>}
+          </Grid>
+          <Grid item className={classes.gridRowsLayoutFooter}>
+            right
+          </Grid>
+        </Grid>
+      </div>
+
+      */
+
+  /*
+
+
+    <Grid container spacing={0} className={classes.gridColumnsLayoutContainer}>
+    <Grid item className={classes.gridColumnsLayoutHeader}>
+      top
+    </Grid>
+    <Grid item className={classes.gridColumnsLayoutBody}>
+    </Grid>
+    <Grid item className={classes.gridColumnsLayoutFooter}>
+      <Button variant="contained" color="primary">Select Version 41</Button>
+    </Grid>
+  </Grid>
+
+  */
+
+/*
+    <Grid container spacing={0} className={classes.gridColumnsLayoutContainer}>
+      <Grid item className={classes.gridColumnsLayoutHeader}>
+        top
       </Grid>
-      <Grid>
-        <div style={{height: '100%'}}>body</div>
+      <Grid item className={classes.gridColumnsLayoutBody}>
+        body
       </Grid>
-      <Grid item height="1">
-        <div style={{height: '100%'}}>body</div>
+      <Grid item className={classes.gridColumnsLayoutFooter}>
+        footer
       </Grid>
     </Grid>
-  )};
+
+    <div className={classes.gridLayoutContainer}>
+      <div className={classes.gridLayoutHeader}>
+        top
+      </div>
+      <div className={classes.gridLayoutBody}>
+        body
+      </div>
+      <div className={classes.gridLayoutFooter}>
+        footer
+      </div>
+    </div>
+
+*/
 
 /*
         <Paper className={classes.scrollableListPaper} style={{ float: 'left' }}>
@@ -112,36 +250,53 @@ export default function Dashboard() {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxHeight: 'inherit',
+    height: '100%',
+    maxHeight: '100%',
   },
-  footer: {
-    position: 'sticky',
-    bottom: '0px',
-    right: '0px',
+
+  gridColumnsLayoutContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    maxWidth: '90vw',
   },
-  container: {
-    maxHeight: 'inherit',
-    overflow: 'auto',
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
+  gridColumnsLayoutHeader: {
+    flex: 'none'
   },
-  paper: {
-    padding: theme.spacing(2),
-    overflow: 'auto',
+  gridColumnsLayoutBody: {
+    flex: 1,
   },
+  gridColumnsLayoutFooter: {
+    flex: 'none'
+  },
+  
+  gridRowsLayoutContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    height: '100%',
+    maxHeight: '80vh',
+  },
+  gridRowsLayoutLeft: {
+    flex: 'none',
+    paddingRight: '16pt'
+  },
+  gridRowsLayoutBody: {
+    flex: 1,
+    marginLeft: '16pt',
+  },
+  gridRowsLayoutRight: {
+    flex: 'none'
+  },
+
   scrollableList: {
     // DEBUG: TODO:
-    maxHeight: 'inherit',
-    overflow: 'auto',
-    paddingRight: '16pt',
-  },
-  scrollableListPaper: {
-    // DEBUG: TODO:
-    maxHeight: 'inherit',
-    overflow: 'auto',
+    maxHeight: '100%',
+    height: '100%',
   },
   scrollablePaper: {
-    maxHeight: 'inherit',
+    // DEBUG: TODO:
+    maxHeight: '100%',
+    height: '100%',
     overflow: 'auto',
   },
 }));
