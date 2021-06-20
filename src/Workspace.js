@@ -7,8 +7,10 @@ import { TargetFileContextProvider } from './core/TargetFile.context';
 import { Typography, Link } from '@material-ui/core';
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@material-ui/core';
 import { onOpenValidation } from './core/onOpenValidations';
-import ReleasePicker from './poc/catalog-next/ReleasePicker';
 
+import ReleasePicker from './poc/catalog-next/ReleasePicker';
+import ColumnGridlayout from './poc/easyGridLayout/columnGridLayout';
+import RowGridLayout from './poc/easyGridLayout/rowGridLayout';
 
 function Workspace() {
   // this state manage on open validation 
@@ -55,8 +57,26 @@ function Workspace() {
         //   ))
         // }
 
+        // <ReleasePicker sourceRepository={sourceRepository} /> 
+
+        /*
+          <ColumnGridlayout 
+            headerComponent = {<div>headerComponent</div>}
+            contentComponent = {<div>contentComponentcontentComponent</div>}
+            footerComponent = {<div>footerComponent</div>}
+          />
+        */
+
+        /*
+          <RowGridLayout
+            leftComponent = {<div>leftComponent</div>}
+            contentComponent = {<div>contentComponentcontentComponent</div>}
+            rightComponent = {<div>rightComponent</div>}
+          />
+        */
+
         _component = (
-          <ReleasePicker />
+          <ReleasePicker sourceRepository={sourceRepository} isOpen={true} />
         );
       }
     }

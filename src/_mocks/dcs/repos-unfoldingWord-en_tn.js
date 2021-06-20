@@ -3,9 +3,16 @@
  * 
  * https://qa.door43.org/api/v1/repos/unfoldingWord/en_tn/releases
  * 
+ * https://github.com/unfoldingWord/catalog-next-toolkit
+ * 
+ * https://github.com/unfoldingWord/gitea-react-toolkit
+ * 
  */
 
-export default { api:
+export default async()=> { 
+  
+return {
+api:
 [
     {
       "id": 25582,
@@ -2163,4 +2170,5 @@ export default { api:
       "assets": []
     }
   ]
+  }
 };
