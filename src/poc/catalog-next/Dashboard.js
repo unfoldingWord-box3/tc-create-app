@@ -30,6 +30,8 @@ import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import StarsIcon from '@material-ui/icons/Stars';
+import CancelIcon from '@material-ui/icons/Cancel';
 import { BottomNavigation, Button } from '@material-ui/core';
 
 import { Layout } from 'antd';
@@ -65,9 +67,16 @@ export default function Dashboard() {
   const releasesListItems = releases.map(release => {return (
     <ListItem button key={release.id} onClick={()=> setSelectedRelease(release)}>
       <ListItemIcon>
-        <AssignmentIcon />
+        {
+          (release.name == "Version 45")? <StarsIcon color="primary"/> : <AssignmentIcon />
+        }
       </ListItemIcon>
-      <ListItemText primary={release.name} secondary={(new Date(release.created_at)).toLocaleDateString()} />
+      <ListItemText 
+        primary={release.name} 
+        secondary={
+          (release.name == "Version 45")? "Default Source" : (new Date(release.created_at)).toLocaleDateString()
+        } />
+      
     </ListItem>
   )});
 
@@ -79,7 +88,10 @@ export default function Dashboard() {
     if (selectedRelease?.body)
     {
       return (<>
-        <div className={classes.scrollablePaper} dangerouslySetInnerHTML={{ __html: markdownToHtml({ markdown: selectedRelease?.body }) }}/>
+        <Paper className={classes.scrollablePaper}>
+          <h2>{selectedRelease?.name}</h2>
+          <div dangerouslySetInnerHTML={{ __html: markdownToHtml({ markdown: selectedRelease?.body }) }}/>
+        </Paper>
       </>);
     }
   }, [selectedRelease]);
@@ -90,7 +102,16 @@ export default function Dashboard() {
     <div className={classes.root}>
       <div className={classes.gridColumnsLayoutContainer}>
         <div className={classes.gridColumnsLayoutHeader}>
-          head
+          <Grid container direction="row" justify="space-between" width="100%">
+            <Grid item alignContent="left">
+              Select Source Version to Compare
+            </Grid>
+            <Grid item alignContent="right">
+              <Button>
+                  <CancelIcon color="action"/>
+              </Button>
+            </Grid>
+          </Grid>
         </div>
         <div className={classes.gridColumnsLayoutBody}>
           <div className={classes.root}>
@@ -113,7 +134,7 @@ export default function Dashboard() {
         </div>
         <div className={classes.gridColumnsLayoutFooter}>
           <div align="right">
-            <Button variant="contained" color="primary">Select Version 41</Button>
+            {selectedRelease && <Button variant="contained" color="primary">Select {selectedRelease?.name}</Button>}
           </div>
         </div>
       </div>
@@ -252,22 +273,26 @@ const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%',
     maxHeight: '100%',
+    width: '100%',
+    maxWidth: '100%',
   },
 
   gridColumnsLayoutContainer: {
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
-    maxWidth: '90vw',
+    maxWidth: '100vw',
   },
   gridColumnsLayoutHeader: {
-    flex: 'none'
+    flex: 'none',
+    margin: '12pt',
   },
   gridColumnsLayoutBody: {
     flex: 1,
   },
   gridColumnsLayoutFooter: {
-    flex: 'none'
+    flex: 'none',
+    padding: '12pt',
   },
   
   gridRowsLayoutContainer: {
@@ -275,6 +300,8 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
     height: '100%',
     maxHeight: '80vh',
+    width: '100%',
+    maxWidth: '100vw',
   },
   gridRowsLayoutLeft: {
     flex: 'none',
@@ -289,14 +316,14 @@ const useStyles = makeStyles((theme) => ({
   },
 
   scrollableList: {
-    // DEBUG: TODO:
     maxHeight: '100%',
     height: '100%',
   },
   scrollablePaper: {
-    // DEBUG: TODO:
-    maxHeight: '100%',
     height: '100%',
+    maxHeight: '100%',
+    width: '100%',
+    maxWidth: '100vw',
     overflow: 'auto',
   },
 }));

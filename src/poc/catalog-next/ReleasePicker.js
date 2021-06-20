@@ -58,6 +58,7 @@ const styles = theme => ({
   root: {
   },
   dialogPaper: {
+    maxHeight: '100%',
   },
 });
 
